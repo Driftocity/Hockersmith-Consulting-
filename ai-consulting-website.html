@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hockersmith Consulting — AI Business Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:   #0A0F1E;
+    --navy2:  #0D1528;
+    --navy3:  #111C35;
+    --blue:   #2563EB;
+    --cyan:   #00D4FF;
+    --ice:    #F0F4FF;
+    --slate:  #8B9DC3;
+    --dim:    #3D4F75;
+    --white:  #FFFFFF;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--navy);
+    color: var(--ice);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    background: rgba(10,15,30,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,212,255,0.08);
+  }
+
+  .logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--white);
+    letter-spacing: -0.03em;
+  }
+
+  .logo span { color: var(--cyan); }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--slate);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--cyan); }
+
+  .nav-cta {
+    background: var(--cyan);
+    color: var(--navy) !important;
+    padding: 10px 22px;
+    border-radius: 6px;
+    font-weight: 600 !important;
+    transition: opacity 0.2s !important;
+  }
+
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 120px 40px 80px;
+  }
+
+  canvas#neural {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.35;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 820px;
+    text-align: center;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.2);
+    color: var(--cyan);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 32px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--cyan);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.4); }
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.06;
+    letter-spacing: -0.04em;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+
+  h1 em {
+    font-style: normal;
+    background: linear-gradient(90deg, var(--blue), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--slate);
+    line-height: 1.7;
+    max-width: 580px;
+    margin: 0 auto 48px;
+    font-weight: 300;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--cyan);
+    color: var(--navy);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 14px 32px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 30px rgba(0,212,255,0.25);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 50px rgba(0,212,255,0.4);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ice);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 14px 32px;
+    border-radius: 8px;
+    border: 1px solid var(--dim);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: var(--navy3);
+    border-top: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    flex-wrap: wrap;
+  }
+
+  .stat { text-align: center; }
+
+  .stat-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.04em;
+  }
+
+  .stat-num span { color: var(--cyan); }
+
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--slate);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 40px; }
+
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+
+  .section-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 14px;
+  }
+
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .section-desc {
+    font-size: 1rem;
+    color: var(--slate);
+    line-height: 1.7;
+    max-width: 520px;
+    font-weight: 300;
+    margin-bottom: 60px;
+  }
+
+  /* ── SERVICES ── */
+  #services { background: var(--navy2); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .service-card {
+    background: var(--navy3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 36px 32px;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .service-card:hover {
+    border-color: rgba(0,212,255,0.2);
+    transform: translateY(-4px);
+  }
+
+  .service-card:hover::before { opacity: 1; }
+
+  .service-icon {
+    width: 48px; height: 48px;
+    background: rgba(0,212,255,0.08);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    font-size: 1.4rem;
+  }
+
+  .service-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .service-card p {
+    font-size: 0.9rem;
+    color: var(--slate);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* ── HOW IT WORKS ── */
+  #process { background: var(--navy); }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0;
+    position: relative;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--dim), transparent);
+  }
+
+  .process-step {
+    text-align: center;
+    padding: 0 24px;
+    position: relative;
+  }
+
+  .step-num {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    border: 1px solid var(--dim);
+    background: var(--navy2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cyan);
+    position: relative;
+    z-index: 1;
+  }
+
+  .process-step h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .process-step p {
+    font-size: 0.85rem;
+    color: var(--slate);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* ── PRODUCTS ── */
+  #products { background: var(--navy2); }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 28px;
+  }
+
+  .product-card {
+    background: var(--navy);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 40px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .product-card.featured {
+    border-color: rgba(0,212,255,0.3);
+    background: linear-gradient(135deg, var(--navy3), var(--navy));
+  }
+
+  .product-card.featured::after {
+    content: 'Most Popular';
+    position: absolute;
+    top: 20px; right: -28px;
+    background: var(--cyan);
+    color: var(--navy);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 36px;
+    transform: rotate(45deg);
+    transform-origin: center;
+  }
+
+  .product-card:hover {
+    border-color: rgba(0,212,255,0.25);
+    transform: translateY(-4px);
+  }
+
+  .product-tag {
+    display: inline-block;
+    background: rgba(37,99,235,0.15);
+    border: 1px solid rgba(37,99,235,0.3);
+    color: #7DAAFF;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+
+  .product-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .product-card .product-desc {
+    font-size: 0.88rem;
+    color: var(--slate);
+    line-height: 1.7;
+    margin-bottom: 28px;
+    font-weight: 300;
+  }
+
+  .product-features {
+    list-style: none;
+    margin-bottom: 32px;
+  }
+
+  .product-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: var(--slate);
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .product-features li:last-child { border-bottom: none; }
+
+  .product-features li::before {
+    content: '✓';
+    color: var(--cyan);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .product-price {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.04em;
+    margin-bottom: 20px;
+  }
+
+  .product-price sub {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--slate);
+    vertical-align: middle;
+  }
+
+  /* ── WHY US ── */
+  #why { background: var(--navy); }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .why-visual {
+    position: relative;
+    height: 360px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--navy3);
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .circuit-bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0.15;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.3) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.3) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .metric-display {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  .metric-big {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 5rem;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: -0.06em;
+    line-height: 1;
+  }
+
+  .metric-label {
+    font-size: 0.9rem;
+    color: var(--slate);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  .why-points { display: flex; flex-direction: column; gap: 28px; }
+
+  .why-point {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .why-icon {
+    width: 40px; height: 40px;
+    flex-shrink: 0;
+    background: rgba(0,212,255,0.06);
+    border: 1px solid rgba(0,212,255,0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .why-point h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .why-point p {
+    font-size: 0.85rem;
+    color: var(--slate);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* ── CTA SECTION ── */
+  #cta {
+    background: linear-gradient(135deg, #0A1628 0%, #0D1A3A 50%, #0A1628 100%);
+    border-top: 1px solid rgba(0,212,255,0.1);
+    border-bottom: 1px solid rgba(0,212,255,0.1);
+    text-align: center;
+  }
+
+  #cta h2 { font-size: clamp(2rem, 5vw, 3.5rem); }
+  #cta .section-desc { margin: 0 auto 48px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy2);
+    padding: 60px 40px 40px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .footer-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .footer-logo span { color: var(--cyan); }
+
+  .footer-tagline {
+    font-size: 0.82rem;
+    color: var(--slate);
+    max-width: 220px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .footer-col h5 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 16px;
+  }
+
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul a {
+    font-size: 0.85rem;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 400;
+  }
+
+  .footer-col ul a:hover { color: var(--cyan); }
+
+  .footer-bottom {
+    max-width: 1100px;
+    margin: 28px auto 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-bottom p { font-size: 0.78rem; color: var(--dim); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    section { padding: 70px 20px; }
+    .stats-bar { gap: 40px; padding: 32px 20px; }
+    .why-grid { grid-template-columns: 1fr; }
+    .why-visual { height: 240px; }
+    .process-steps::before { display: none; }
+    .footer-inner { flex-direction: column; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    canvas#neural { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Hockersmith<span> Consulting</span></div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#cta" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="neural"></canvas>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">AI Business Consulting</div>
+    <h1>Your Business.<br><em>Smarter. Faster.<br>Without Limits.</em></h1>
+    <p class="hero-sub">We deploy AI to eliminate bottlenecks, automate operations, and free your business from the ceiling of human bandwidth — so you can scale without scaling headcount.</p>
+    <div class="hero-ctas">
+      <a href="#cta" class="btn-primary">Book a Free Audit</a>
+      <a href="#services" class="btn-ghost">See What We Do</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">87<span>%</span></div>
+    <div class="stat-label">Average Task Automation Rate</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">3<span>×</span></div>
+    <div class="stat-label">Output Per Employee</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">60<span>%</span></div>
+    <div class="stat-label">Average Overhead Reduction</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">14</div>
+    <div class="stat-label">Day Average Deployment</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <p class="section-eyebrow">What We Do</p>
+    <h2>Consulting Built Around<br>Real Business Outcomes</h2>
+    <p class="section-desc">We don't sell AI hype. We map your operations, identify exactly where AI creates leverage, and execute — fast.</p>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🔍</div>
+        <h3>AI Operations Audit</h3>
+        <p>A full diagnostic of your current workflows to pinpoint every task, role, and process that can be automated or accelerated with AI — with a prioritized implementation roadmap.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">⚙️</div>
+        <h3>Workflow Automation Design</h3>
+        <p>We design end-to-end automated systems that replace repetitive human tasks — customer follow-ups, data entry, scheduling, reporting — and eliminate the bottlenecks eating your time.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🤖</div>
+        <h3>AI Strategy & Integration</h3>
+        <p>Custom AI adoption strategy tied to your business goals, with hands-on integration across your existing tools — CRM, communication, invoicing, and operations platforms.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">👥</div>
+        <h3>Workforce Efficiency Planning</h3>
+        <p>Restructure roles and responsibilities around AI capabilities so your team operates at maximum leverage — doing more with fewer people and zero drop in output quality.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📈</div>
+        <h3>Revenue Automation</h3>
+        <p>Deploy AI to drive sales outreach, lead nurturing, proposal generation, and customer service — turning your revenue engine into a system that runs around the clock.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🧠</div>
+        <h3>Ongoing AI Advisory</h3>
+        <p>Monthly retainer consulting to continuously optimize your AI stack, evaluate new tools, and ensure you stay ahead of competitors still relying on manual operations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-inner">
+    <p class="section-eyebrow">How It Works</p>
+    <h2>From Audit to Automation<br>in Four Steps</h2>
+    <p class="section-desc">A clear, structured process that gets AI working in your business quickly — without disruption.</p>
+
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <h3>Discovery Call</h3>
+        <p>We learn your business, your pain points, and where time and money are being lost to manual work.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <h3>Operations Audit</h3>
+        <p>Deep analysis of your workflows to build a precise map of automation opportunities and ROI projections.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <h3>AI Deployment</h3>
+        <p>We build, configure, and integrate your AI systems — agents, automations, and tools — directly into your operations.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">04</div>
+        <h3>Optimize & Scale</h3>
+        <p>Ongoing monitoring and iteration so your AI systems get smarter over time and scale as your business grows.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="section-inner">
+    <p class="section-eyebrow">AI Products</p>
+    <h2>Deploy Intelligent Agents<br>That Work For You 24/7</h2>
+    <p class="section-desc">Purpose-built AI agent products for businesses ready to put intelligence to work across every department.</p>
+
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-tag">AI Agent</div>
+        <h3>Agent Starter</h3>
+        <p class="product-desc">One custom AI agent built and deployed for a single business function — customer support, lead qualification, scheduling, or data processing.</p>
+        <ul class="product-features">
+          <li>1 Custom AI Agent Built & Deployed</li>
+          <li>Integration with your existing tools</li>
+          <li>30-day onboarding & optimization</li>
+          <li>Basic performance dashboard</li>
+          <li>Email support</li>
+        </ul>
+        <div class="product-price">$500 <sub>/one-time</sub></div>
+        <a href="#cta" class="btn-ghost" style="display:block;text-align:center;">Get Started</a>
+      </div>
+
+      <div class="product-card featured">
+        <div class="product-tag">AI Agent Suite</div>
+        <h3>Agent Growth</h3>
+        <p class="product-desc">A suite of AI agents built to cover your core business operations — sales, support, ops, and communications — working together as a system.</p>
+        <ul class="product-features">
+          <li>Up to 5 Custom AI Agents</li>
+          <li>Cross-agent workflow orchestration</li>
+          <li>Full CRM & platform integration</li>
+          <li>Real-time performance analytics</li>
+          <li>Monthly strategy review calls</li>
+          <li>Priority support & rapid updates</li>
+        </ul>
+        <div class="product-price">$1,997 <sub>/mo</sub></div>
+        <a href="#cta" class="btn-primary" style="display:block;text-align:center;">Get Started</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-tag">Managed AI</div>
+        <h3>Agent Management</h3>
+        <p class="product-desc">Full management of your existing AI agents — monitoring, optimization, updates, and expansion so your AI never falls behind your business needs.</p>
+        <ul class="product-features">
+          <li>Continuous agent monitoring</li>
+          <li>Weekly performance optimization</li>
+          <li>Prompt & model updates</li>
+          <li>New agent deployment as needed</li>
+          <li>Dedicated account manager</li>
+        </ul>
+        <div class="product-price">$999 <sub>/mo</sub></div>
+        <a href="#cta" class="btn-ghost" style="display:block;text-align:center;">Get Started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="section-inner">
+    <div class="why-grid">
+      <div class="why-visual">
+        <div class="circuit-bg"></div>
+        <div class="metric-display">
+          <div class="metric-big">60%</div>
+          <div class="metric-label">Lower Operating Cost<br>for Our Average Client</div>
+        </div>
+      </div>
+      <div>
+        <p class="section-eyebrow">Why Apex AI</p>
+        <h2>We Don't Consult.<br>We Transform.</h2>
+        <p class="section-desc">Most consultants hand you a report. We hand you a running system.</p>
+        <div class="why-points">
+          <div class="why-point">
+            <div class="why-icon">⚡</div>
+            <div>
+              <h4>Speed That Matters</h4>
+              <p>The average Apex client has AI working in their business within 14 days of engagement. No months-long analysis cycles.</p>
+            </div>
+          </div>
+          <div class="why-point">
+            <div class="why-icon">🎯</div>
+            <div>
+              <h4>Outcome-First Thinking</h4>
+              <p>We measure success in hours saved, costs reduced, and revenue generated — not in deliverables or slide decks.</p>
+            </div>
+          </div>
+          <div class="why-point">
+            <div class="why-icon">🔒</div>
+            <div>
+              <h4>Built for Your Business</h4>
+              <p>No off-the-shelf tools. Every agent, workflow, and integration is custom-built to your operations, your data, and your goals.</p>
+            </div>
+          </div>
+          <div class="why-point">
+            <div class="why-icon">📡</div>
+            <div>
+              <h4>Always-On Support</h4>
+              <p>Your AI systems run 24/7, and so does our support. Our team monitors, maintains, and improves your deployment continuously.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="section-inner">
+    <p class="section-eyebrow">Get Started</p>
+    <h2>Ready to Run a Smarter<br>Business?</h2>
+    <p class="section-desc">Book a free 30-minute AI operations audit. We'll show you exactly where AI can cut your overhead, eliminate manual work, and unlock growth — at no cost and no obligation.</p>
+    <div class="hero-ctas">
+      <a href="mailto:hello@apexai.com" class="btn-primary">Book Free Audit</a>
+      <a href="tel:+13175550199" class="btn-ghost">Call Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Hockersmith<span> Consulting</span></div>
+      <p class="footer-tagline">AI consulting and agent deployment. Powered by Driftocity.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">AI Operations Audit</a></li>
+        <li><a href="#services">Workflow Automation</a></li>
+        <li><a href="#services">AI Strategy</a></li>
+        <li><a href="#services">Revenue Automation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Products</h5>
+      <ul>
+        <li><a href="#products">Agent Starter</a></li>
+        <li><a href="#products">Agent Growth Suite</a></li>
+        <li><a href="#products">Agent Management</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Case Studies</a></li>
+        <li><a href="#cta">Contact</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Hockersmith Consulting. All rights reserved.</p>
+    <p>Built for businesses that refuse to stand still.</p>
+  </div>
+</footer>
+
+<script>
+// Neural network canvas animation
+const canvas = document.getElementById('neural');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = document.getElementById('hero').offsetHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const NODES = 55;
+const nodes = Array.from({ length: NODES }, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  vx: (Math.random() - 0.5) * 0.4,
+  vy: (Math.random() - 0.5) * 0.4,
+  r: Math.random() * 2 + 1
+}));
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw edges
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 160) {
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.strokeStyle = `rgba(0,212,255,${(1 - dist / 160) * 0.35})`;
+        ctx.lineWidth = 0.6;
+        ctx.stroke();
+      }
+    }
+  }
+
+  // Draw nodes
+  nodes.forEach(n => {
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0,212,255,0.6)';
+    ctx.fill();
+  });
+
+  // Move nodes
+  nodes.forEach(n => {
+    n.x += n.vx;
+    n.y += n.vy;
+    if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+    if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+  });
+
+  requestAnimationFrame(draw);
+}
+
+draw();
+
+// Scroll-triggered fade-in
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.service-card, .product-card, .process-step, .why-point').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(24px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
